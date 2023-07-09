@@ -5,6 +5,7 @@ $conn = new mysqli($server,$user,$pass,$db);
 if ($conn->connect_error) {
   die('Connection failed: ' . $conn->connect_error);
 }
+$url = getRequestURL();
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +15,7 @@ if ($conn->connect_error) {
   <title>RaceTime.GG Async Search/Submission Tool by JamesFnX</title>
   </head>
   <body>
-    <div style="width: 50%; margin-left: auto; margin-right: auto;"><span class="headerleft"><a href="https://projects.thecleanupstep.com/faq">FAQ</a></span><span class="headerright"><a href="https://projects.thecleanupstep.com/discord" target="_blank">Discord</a></span></div>
+    <div style="width: 50%; margin-left: auto; margin-right: auto;"><span class="headerleft"><?php echo '<a href="' . $url; ?>/faq">FAQ</a></span><span class="headerright"><?php echo '<a href="' . $url; ?>/discord" target="_blank">Discord</a></span></div>
     <br><br><hr>
     <h1>RaceTime Race Search and Async Submission</h1>
     <p>This tool looks up races from <a target="_blank" href="https://racetime.gg">RaceTime.GG</a> and sorts them by mode, giving you links to the seed without seeing the RT.GG page and getting spoiled on times.<br>
@@ -31,7 +32,7 @@ if ($conn->connect_error) {
       </tr>
       <tr>
         <td style="border: 0px; background-color: rgb(0, 48, 0);">
-          <form action="./results.php" method="post">
+          <?php echo '<form action="' . $url; ?>/results.php" method="post">
             <select name="gamemode">
 <?php
 $stmt = $conn->prepare("SELECT DISTINCT mode FROM races ORDER BY mode ASC");
@@ -48,7 +49,7 @@ $stmt->close();
           </form>
         </td>
         <td style="border: 0px; background-color: rgb(0, 48, 0);">
-          <form action="./racerresults.php" method="post">
+          <?php echo '<form action="' . $url; ?>/racerresults.php" method="post">
             <select name="racer">
 <?php
 $stmt = $conn->prepare("SELECT DISTINCT name FROM times ORDER BY name ASC");
@@ -86,7 +87,7 @@ while($row = $result->fetch_assoc()) {
     } else {
       $description = $row2['description'];
     }
-    echo '        <tr><td style="text-align: center;">' . $row2['date'] . '</td><td style="text-align: center;">' . $row2['mode'] . '</td><td><a target="_blank" href="https://racetime.gg' . $row2['url'] . '">' . $row2['url'] . '</a></td><td><a target="_blank" href="' . $row2['seed'] .'">Download Seed</a></td><td>' . hashToImages($row2['hash']) . '</td><td>' . $description . '</td><td style="text-align: center;">' . $row2['players'] . '</td><td style="text-align: center;"><a href="https://projects.thecleanupstep.com/races/' . $row2['id'] . '" target=_blank" rel="noreferrer noopener">Permalink</a></td><td><form action="./submit_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row2['id'] . '"><input type="submit" value="Input Time"></form></td><td><form method="post" action="./view_time.php"><input type="hidden" id="race_id" name="race_id" value="' . $row2['id'] . '"><input type="submit" value="View Times"></form></td></tr>' . PHP_EOL;
+    echo '        <tr><td style="text-align: center;">' . $row2['date'] . '</td><td style="text-align: center;">' . $row2['mode'] . '</td><td><a target="_blank" href="https://racetime.gg' . $row2['url'] . '">' . $row2['url'] . '</a></td><td><a target="_blank" href="' . $row2['seed'] .'">Download Seed</a></td><td>' . hashToImages($row2['hash']) . '</td><td>' . $description . '</td><td style="text-align: center;">' . $row2['players'] . '</td><td style="text-align: center;"><a href="' . $url . '/races/' . $row2['id'] . '" target=_blank" rel="noreferrer noopener">Permalink</a></td><td><form action="' . $url . '/submit_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row2['id'] . '"><input type="submit" value="Input Time"></form></td><td><form method="post" action="' . $url . '/view_time.php"><input type="hidden" id="race_id" name="race_id" value="' . $row2['id'] . '"><input type="submit" value="View Times"></form></td></tr>' . PHP_EOL;
   }
   $stmt2->close();
 }
@@ -109,7 +110,7 @@ while($row = $result->fetch_assoc()) {
   } else {
     $description = $row['description'];
   }
-  echo '        <tr><td style="text-align: center;">' . $row['date'] . '</td><td style="text-align: center;">' . $row['mode'] . '</td><td><a target="_blank" href="https://racetime.gg' . $row['url'] . '">' . $row['url'] . '</a></td><td><a target="_blank" href="' . $row['seed'] .'">Download Seed</a></td><td>' . hashToImages($row['hash']) . '</td><td>' . $description . '</td><td style="text-align: center;">' . $row['players'] . '</td><td style="text-align: center;"><a href="https://projects.thecleanupstep.com/races/' . $row['id'] . '" target=_blank" rel="noreferrer noopener">Permalink</a></td><td><form action="./submit_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="Input Time"></form></td><td><form method="post" action="./view_time.php"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="View Times"></form></td></tr>' . PHP_EOL;
+  echo '        <tr><td style="text-align: center;">' . $row['date'] . '</td><td style="text-align: center;">' . $row['mode'] . '</td><td><a target="_blank" href="https://racetime.gg' . $row['url'] . '">' . $row['url'] . '</a></td><td><a target="_blank" href="' . $row['seed'] .'">Download Seed</a></td><td>' . hashToImages($row['hash']) . '</td><td>' . $description . '</td><td style="text-align: center;">' . $row['players'] . '</td><td style="text-align: center;"><a href="' . $url . '/races/' . $row['id'] . '" target=_blank" rel="noreferrer noopener">Permalink</a></td><td><form action="' . $url . '/submit_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="Input Time"></form></td><td><form method="post" action="' . $url . '/view_time.php"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="View Times"></form></td></tr>' . PHP_EOL;
 }
 $stmt->close();
 ?>
@@ -130,7 +131,7 @@ while($row = $result->fetch_assoc()) {
   } else {
     $description = $row['description'];
   }
-  echo '        <tr><td style="text-align: center;">' . $row['date'] . '</td><td style="text-align: center;">' . $row['mode'] . '</td><td><a target="_blank" href="https://racetime.gg' . $row['url'] . '">' . $row['url'] . '</a></td><td><a target="_blank" href="' . $row['seed'] .'">Download Seed</a></td><td>' . hashToImages($row['hash']) . '</td><td>' . $description . '</td><td style="text-align: center;">' . $row['players'] . '</td><td style="text-align: center;"><a href="https://projects.thecleanupstep.com/races/' . $row['id'] . '" target=_blank" rel="noreferrer noopener">Permalink</a></td><td><form action="./submit_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="Input Time"></form></td><td><form method="post" action="./view_time.php"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="View Times"></form></td></tr>' . PHP_EOL;
+  echo '        <tr><td style="text-align: center;">' . $row['date'] . '</td><td style="text-align: center;">' . $row['mode'] . '</td><td><a target="_blank" href="https://racetime.gg' . $row['url'] . '">' . $row['url'] . '</a></td><td><a target="_blank" href="' . $row['seed'] .'">Download Seed</a></td><td>' . hashToImages($row['hash']) . '</td><td>' . $description . '</td><td style="text-align: center;">' . $row['players'] . '</td><td style="text-align: center;"><a href="' . $url . '/races/' . $row['id'] . '" target=_blank" rel="noreferrer noopener">Permalink</a></td><td><form action="' . $url . '/submit_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="Input Time"></form></td><td><form method="post" action="' . $url . '/view_time.php"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="View Times"></form></td></tr>' . PHP_EOL;
 }
 $stmt->close();
 ?>
@@ -146,7 +147,7 @@ $stmt = $conn->prepare("SELECT DISTINCT mode, COUNT(mode) AS total FROM races WH
 $stmt->execute();
 $result = $stmt->get_result();
 while($row = $result->fetch_assoc()) {
- echo '        <tr><td><form method="post" action="./results.php" class="inline"><button type="submit" name="gamemode" value="' . $row['mode'] . '" class="link-button">' . $row['mode'] . '</button></form></td><td style="text-align: right;">' . $row['total'] . '</td></tr>' . PHP_EOL;}
+ echo '        <tr><td><form method="post" action="' . $url . '/results.php" class="inline"><button type="submit" name="gamemode" value="' . $row['mode'] . '" class="link-button">' . $row['mode'] . '</button></form></td><td style="text-align: right;">' . $row['total'] . '</td></tr>' . PHP_EOL;}
 $stmt->close();
 ?>
       </table>
