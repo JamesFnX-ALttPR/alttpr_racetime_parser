@@ -1,0 +1,196 @@
+@font-face {
+  font-family: "Hylia Serif Beta";
+  src: local("Hylia Serif Beta"), url("./fonts/HyliaSerifBeta-Regular.otf") format("opentype");
+}
+@font-face {
+  font-family: "Return of Ganon";
+  src: local("Return of Ganon"), url("./fonts/ReturnofGanon.ttf") format("truetype");
+}
+body {
+  background-color: rgb(0, 48, 0);
+}
+.faq_question {
+  font-family: Calibri, Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  color: white;
+  text-indent: 20px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: x-large;
+}
+.faq_answer {
+  font-family: Calibri, Arial, Helvetica, sans-serif;
+  font-size: large;
+  color: white;
+}
+h1 {
+  color: rgb(237, 165, 31);
+  font-family: "Hylia Serif Beta", Calibri, Arial, Helvetica, sans-serif;
+  text-align: center;
+  font-weight: normal;
+  font-size: xxx-large;
+}
+p {
+  color: rgb(255, 255, 255);
+  font-family: Calibri, Arial, Helvetica, sans-serif;
+}
+
+p.racers {
+  font-family: Calibri, Arial, Helvetica, sans-serif;
+  font-size: large;
+  color: rgb(255, 255, 255);
+  text-align: center;
+  align: center;
+}
+
+.inline {
+  display: inline;
+}
+.link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: rgb(230, 230, 230);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 1em;
+  font-family: Calibri, Arial, Helvetica, sans-serif;
+}
+.link-button-2 {
+  background: none;
+  border: none;
+  padding: 0;
+  color: rgb(230, 230, 230);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 2em;
+  font-family: "Return of Ganon", Calibri, Arial, Helvetica, sans-serif;
+}
+.excludetext {
+  background: none;
+  border: none;
+  padding: 0;
+  color: rgb(230, 230, 230);
+  font-size: 2em;
+  font-family: "Return of Ganon", Calibri, Arial, Helvetica, sans-serif;
+}
+.index-button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  font-size: xx-large;
+  font-family: "Return of Ganon";
+}
+
+.link-button:focus {
+  outline: none;
+}
+a:link {
+  color: rgb(230, 230, 230);
+}
+a:visited {
+  color: rgb(170, 170, 70);
+}
+table, th, td {
+  border: 1px solid white;
+  border-collapse: collapse;
+  font-family: Calibri, Arial, Helvetica, sans-serif;
+  color: white;
+}
+caption {
+  color: white;
+  text-transform: uppercase;
+  font-family: "Return of Ganon", Calibri, Arial, Helvetica, sans-serif;
+  font-size: xx-large;
+}
+table {
+  margin-left: auto;
+  margin-right: auto;
+}
+th {
+  background-color: rgb(0, 64, 0);
+}
+td {
+  background-color: rgb(0, 96, 0);
+}
+.new {
+  font-weight: bold;
+  color: rgb(0, 190, 190);
+}
+.header {
+  text-align: center;
+  font-size: xx-large;
+  color: white;
+  text-transform: uppercase;
+  font-family: "Hylia Serif Beta", Calibri, Arial, Helvetica, sans-serif;
+}
+.headerleft {
+  font-family: "Return of Ganon";
+  font-size: x-large;
+  color: white;
+  float: left;
+}
+.headerright {
+  font-family: "Return of Ganon";
+  font-size: x-large;
+  color: white;
+  float: right;
+}
+.footer {
+  width: 50%;
+  border: 0px;
+}
+.footer_left {
+  font-family: "Return of Ganon", Calibri, Arial, Helvetica, sans-serif;
+  border: 0px;
+  background-color: rgb(0, 48, 0);
+  font-size: xx-large;
+  font-weight: bold;
+  float: left;
+}
+.footer_right {
+  font-family: "Return of Ganon", Calibri, Arial, Helvetica, sans-serif;
+  border: 0px;
+  background-color: rgb(0, 48, 0);
+  font-size: xx-large;
+  font-weight: bold;
+  float: right;
+}
+.times {
+  font-size: large;
+}
+.return {
+  font-family: "Return of Ganon", Calibri, Arial, Helvetica, sans-serif;
+  font-size: x-large;
+  text-transform: uppercase;
+  text-align: right;
+}
+.return a:visited {
+  color: rgb(230, 230, 230);
+}
+.submit {
+  border: 0px;
+  border-spacing: 3px;
+}
+.submitLabel {
+  text-align: right;
+  border: 0px;
+  background-color: rgb(0, 48, 0);
+}
+.submitField {
+  border: 0px;
+  background-color: rgb(0, 48, 0);
+}
+.submitButton {
+  text-align: center;
+  border: 0px;
+  background-color: rgb(0, 48, 0);
+}
+.comments {
+  color: rgb(230, 30, 30);
+  font-size: small;
+}
