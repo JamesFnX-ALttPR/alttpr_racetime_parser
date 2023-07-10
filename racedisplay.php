@@ -8,6 +8,7 @@
 <?php
 include('settings.php');
 include('functions.php');
+$domain = getRequestURL();
 $conn = new mysqli($server,$userro,$passro,$db);
 if($conn->connect_error) {
   die('Connection failed: ' . $conn->connect_error);
@@ -20,7 +21,7 @@ if(empty($id)) {
   $stmt->bind_param("i", $id);
   $stmt->execute();
   $result = $stmt->get_result();
-  echo '    <p class="return"><a href="https://projects.thecleanupstep.com/index.php">Return To Search</a></p>'. PHP_EOL;
+  echo '    <p class="return"><a href="' . $domain . '/index.php">Return To Search</a></p>'. PHP_EOL;
   echo '    <table style="width: 90%;">' . PHP_EOL;
   echo '      <tr><th width="85 px">Date</th><th>RaceTime Room</th><th>Mode</th><th width="75 px">Seed Link</th><th width="145 px">Hash</th><th>Description</th><th>Players</th><th>Finishers</th><th colspan="2">Submit/View Times</th></tr>' . PHP_EOL;
   while($row = $result->fetch_assoc()) {
@@ -36,9 +37,9 @@ if(empty($id)) {
     $result2 = $stmt2->get_result();
     $rows = $result2->num_rows;
     if($rows > 0) {
-      echo '<td style="text-align: center;"><span id="finishers" style="visibility: hidden;">' . $rows . '</span></td><td style="text-align: center;"><form action="https://projects.thecleanupstep.com/submit_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $id . '"><input type="submit" value="Input Time"></form></td><td style="text-align: center;"><form action="https://projects.thecleanupstep.com/view_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $id . '"><input type="submit" value="View Times"></form></td>';
+      echo '<td style="text-align: center;"><span id="finishers" style="visibility: hidden;">' . $rows . '</span></td><td style="text-align: center;"><form action="' . $domain . '/submit_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $id . '"><input type="submit" value="Input Time"></form></td><td style="text-align: center;"><form action="' . $domain . '/view_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $id . '"><input type="submit" value="View Times"></form></td>';
     } else {
-      echo '<td style="text-align: center;"><span id="finishers" style="visibility: hidden;">0</span></td><td colspan="2" style="text-align: center;"><form action="https://projects.thecleanupstep.com/submit_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $id . '"><input type="submit" value="Input Time"></form></td>';
+      echo '<td style="text-align: center;"><span id="finishers" style="visibility: hidden;">0</span></td><td colspan="2" style="text-align: center;"><form action="' . $domain . '/submit_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $id . '"><input type="submit" value="Input Time"></form></td>';
     }
     echo '</tr>' . PHP_EOL;
     $stmt2->close();
