@@ -1,5 +1,18 @@
 <?php
 
+function getRequestURL() {
+  if (isset($_SERVER['HTTPS']) &&
+  ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1) ||
+  isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+  $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
+    $protocol = 'https://';
+  } else {
+    $protocol = 'http://';
+  }
+  $url = $protocol . $_SERVER['HTTP_HOST'];
+  return $url;
+}
+
 function parseName($s) {
   $pattern = "/.*\#[0-9]{4}/";
   if(preg_match($pattern,$s) != 1) {
@@ -30,7 +43,7 @@ function hashToImages($s) {
   $sArray = explode('/', $s);
   $rtn = '';
   foreach($sArray as $str) {
-    $rtn = $rtn . '<img src="https://projects.thecleanupstep.com/images/' . strtolower(str_replace(' ','_',$str)) . '.png" height="25" width="25" alt="' . $str . '">&nbsp;';
+    $rtn = $rtn . '<img src="' . getRequestURL() . '/images/' . strtolower(str_replace(' ','_',$str)) . '.png" height="25" width="25" alt="' . $str . '">&nbsp;';
   }
   return $rtn;
 }
@@ -83,18 +96,6 @@ function validateData($s) {
   return 'true';
 }
 
-function getRequestURL() {
-  if (isset($_SERVER['HTTPS']) &&
-  ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1) ||
-  isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
-  $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
-    $protocol = 'https://';
-  } else {
-    $protocol = 'http://';
-  }
-  $url = $protocol . $_SERVER['HTTP_HOST'];
-  return $url;
-}
 function timeToSeconds(string $s): int {
   $sarray = explode(":", $s);
   return $sarray[0] * 3600 + $sarray[1] * 60 + $sarray[2];
