@@ -36,10 +36,7 @@ function hashToImages($s) {
 }
 
 function parseAPI($s) {
-  $sArray = explode(": ", $s);
-  if(count($sArray) != 2) {
-    return ['', ''];
-  }
+  $sArray = explode(": ", $s, 2);
   $a = str_replace('"', '', $sArray[0]);
   $b = str_replace('"', '', $sArray[1]);
   return [$a, $b];
