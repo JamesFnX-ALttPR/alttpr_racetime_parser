@@ -20,10 +20,10 @@ $url = getRequestURL();
     <h1>RaceTime Race Search and Async Submission</h1>
     <p>This tool looks up races from <a target="_blank" href="https://racetime.gg">RaceTime.GG</a> and sorts them by mode, giving you links to the seed without seeing the RT.GG page and getting spoiled on times.<br>
     This tool is very much still in development.<br>
+    <strong>UPDATED 7/14/23</strong> - Featured Modes updated to Crosskeys 2023 and Casual Boots..<br>
     <strong>UPDATED 7/7/23</strong> - Fixed a bug preventing times from new races from being entered automatically.<br>
     <strong>UPDATED 7/4/23</strong> - You can now add comments to your time submissions.<br>
     <strong>UPDATED 6/30/23</strong> - Participant List added to Permalinks - You can choose to see the names of the runners of a given seed on the Permalink page for that seed.<br>
-    <strong>UPDATED 6/28/23</strong> - Added 100% Locations Crosskeys seeds to featured modes.<br>
     <strong>UPDATED 6/10/23</strong> - You can now exclude a racer from results when searching by mode. You can find races you haven't already submitted a time to yet.</p>
     <table style="text-align: center;">
       <tr>
@@ -117,12 +117,12 @@ $stmt->close();
       </table>
     </div>
     <hr>
-    <div style="text-align: center;"><input type="button" value="Featured Modes - AD Keysanity and Crosskeys - Click to View" id="showfeatured" onclick="toggleFeatured(this)" class="index-button"></div><br>
+    <div style="text-align: center;"><input type="button" value="Featured Modes - Crosskeys (100pct Locations) and Casual Boots - Click to View" id="showfeatured" onclick="toggleFeatured(this)" class="index-button"></div><br>
     <div style="display:none;" id="featuredraces">
       <table>
         <tr><th width="85 px">Date</th><th>Mode</th><th>RaceTime Room</th><th>Seed Link</th><th width="145 px">Hash</th><th>Description</th><th>Players</th><th>Permalink</th><th colspan="2">Submit/View Times</th></tr>
 <?php
-$stmt = $conn->prepare("SELECT id, date, url, mode, seed, hash, description, players FROM races WHERE (mode = 'adkeys' OR mode = 'crosskeys2023' OR mode = 'alaszun/crosskeys2023' OR mode = 'crosskeys' OR mode = 'adkeys_boots' OR mode = 'homemadebeer/adkeys_std_boots' OR mode = 'inverted_adkeys' OR mode = 'homemadebeer/adkeys_inv_boots' OR mode = 'standard_adkeys') AND date BETWEEN NOW() - INTERVAL 90 DAY AND NOW() ORDER BY date DESC LIMIT 50");
+$stmt = $conn->prepare("SELECT id, date, url, mode, seed, hash, description, players FROM races WHERE (mode = 'crosskeys2023' OR mode = 'alaszun/crosskeys2023' OR mode = 'casualboots') AND date BETWEEN NOW() - INTERVAL 45 DAY AND NOW() ORDER BY date DESC LIMIT 25");
 $stmt->execute();
 $result = $stmt->get_result();
 while($row = $result->fetch_assoc()) {
@@ -184,11 +184,11 @@ $stmt->close();
       var vis = document.getElementById('featuredraces');
       if (vis.style.display == 'block') {
         vis.style.display = 'none';
-        document.getElementById(ele.id).value = "Featured Modes - AD Keysanity and Crosskeys - Click to View";
+        document.getElementById(ele.id).value = "Featured Modes - Crosskeys (100pct Locations) and Casual Boots - Click to View";
       }
       else {
         vis.style.display = 'block';
-        document.getElementById(ele.id).value = "Featured Modes - AD Keysanity and Crosskeys - Click to Hide";
+        document.getElementById(ele.id).value = "Featured Modes - Crosskeys (100pct Locations) and Casual Boots - Click to Hide";
       }
     }
   </script>
