@@ -6,4 +6,6 @@ $passro = "";
 $user = "";
 $pass = "";
 $db = "";
+// Featured Modes - Put in all known mode slugs in quotes, comma separated
+$featured = ["", ""];
 ?>
