@@ -134,6 +134,12 @@ td {
   color: white;
   float: left;
 }
+.headercenter {
+	font-family: "Return of Ganon";
+	font-size: x-large;
+	color: white;
+	text-align: center;
+}
 .headerright {
   font-family: "Return of Ganon";
   font-size: x-large;
