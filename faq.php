@@ -1,25 +1,14 @@
 <!DOCTYPE html>
 <?php
-function getRequestURL() {
-  if (isset($_SERVER['HTTPS']) &&
-  ($_SERVER['HTTPS'] == 'on' || $_SERVER['HTTPS'] == 1) ||
-  isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
-  $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https') {
-    $protocol = 'https://';
-  } else {
-    $protocol = 'http://';
-  }
-  $url = $protocol . $_SERVER['HTTP_HOST'];
-  return $url;
-}
+include('functions.php');
 ?>
 <html>
   <head>
   <link rel="stylesheet" href="<?php echo getRequestURL(); ?>/styles.css">
-    <title>RaceTime.GG Async Search/Submission Tool by JamesFnX</title>
+    <title>RaceTime.GG Async Search/Submission Tool by JamesFnX - Frequently Asked Questions</title>
   </head>
   <body>
-    <div style="width: 50%; margin-left: auto; margin-right: auto;"><span class="headerleft"><a href="<?php echo getRequestURL(); ?>/">Home</a></span><span class="headerright"><a href="<?php echo getRequestURL(); ?>/discord" target="_blank">Discord</a></span></div>
+    <div style="width: 50%; margin-left: auto; margin-right: auto;"><span class="headerleft"><a href="<?php echo getRequestURL(); ?>/">Home</a></span><span class="headerright"><a href="<?php echo getRequestURL(); ?>/featured">Featured Modes</a></span></div>
     <br><br><hr>
     <h1>Frequently Asked Questions</h1>
     <div><input type="button" value="What does this site do?" id="faq1" onclick="toggleAnswer1(this)" class="faq_question"></div><br>
@@ -151,5 +140,4 @@ function getRequestURL() {
       }
     }
   </script>
-
 </html>
