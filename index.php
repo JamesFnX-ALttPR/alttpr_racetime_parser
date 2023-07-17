@@ -20,7 +20,7 @@ $domain = getRequestURL();
     <h1>RaceTime Race Search and Async Submission</h1>
     <p>This tool looks up races from <a target="_blank" href="https://racetime.gg">RaceTime.GG</a> and sorts them by mode, giving you links to the seed without seeing the RT.GG page and getting spoiled on times.<br>
     This tool is very much still in development.<br>
-    <strong>UPDATED 7/14/23</strong> - <?php echo '<a href="' . $domain; ?>/featured/1">Featured Modes</a> moved to their own page. Now featuring Crosskeys 100% Locations and Casual Boots.<br>
+    <strong>UPDATED 7/14/23</strong> - <?php echo '<a href="' . $domain; ?>/featured">Featured Modes</a> moved to their own page. Now featuring Crosskeys 100% Locations and Casual Boots.<br>
     <strong>UPDATED 7/7/23</strong> - Fixed a bug preventing times from new races from being entered automatically.<br>
     <strong>UPDATED 7/4/23</strong> - You can now add comments to your time submissions.<br>
     <strong>UPDATED 6/30/23</strong> - Participant List added to Permalinks - You can choose to see the names of the runners of a given seed on the Permalink page for that seed.<br>
