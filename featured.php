@@ -31,7 +31,7 @@ if(empty($page)) {
 }
 $offset = 20 * ($pageint - 1);
 $firstrecord = $offset + 1;
-$query = "SELECT id, date, url, seed, hash, description, players FROM races WHERE " . queryFromFeatured($featured) . " ORDER BY date DESC LIMIT 20 OFFSET ?";
+$query = "SELECT id, date, url, mode, seed, hash, description, players FROM races WHERE " . queryFromFeatured($featured) . " ORDER BY date DESC LIMIT 20 OFFSET ?";
 $stmt = $conn->prepare($query);
 $stmt->bind_param("i", $offset);
 $stmt->execute();
@@ -47,7 +47,7 @@ foreach($featured as $str) {
         echo '- ' . $str . ' ';
 }
 echo $firstrecord . '-' . $lastrecord . '</caption>' . PHP_EOL;
-echo '      <tr><th width="85 px">Date</th><th>RaceTime Room</th><th width="75 px">Seed Link</th><th width="145 px">Hash</th><th>Description</th><th>Permalink</th><th>Players</th><th colspan="2">Submit/View Times</th></tr>' . PHP_EOL;
+echo '      <tr><th width="85 px">Date</th><th>RaceTime Room</th><th>Mode</th><th width="75 px">Seed Link</th><th width="145 px">Hash</th><th>Description</th><th>Permalink</th><th>Players</th><th colspan="2">Submit/View Times</th></tr>' . PHP_EOL;
 while($row = $result->fetch_assoc()) {
         $raceid = $row['id'];
         if(strlen($row['description']) > 75) {
@@ -55,7 +55,7 @@ while($row = $result->fetch_assoc()) {
         } else {
                 $description = $row['description'];
         }
-        echo '      <tr><td style="text-align: center;">' . htmlentities($row['date']) . '</td><td><a href="https://racetime.gg' . htmlentities($row['url']) . '" target="_blank" rel="noreferrer noopener">' . str_replace('/alttpr/','',$row['url']) . '</a></td><td style="text-align: center;"><a href="' . htmlentities($row['seed']) . '" target="_blank" rel="noreferrer noopener">Seed Link</a></td><td>' . hashToImages($row['hash']) . '</td><td>' . $description . '</td><td style="text-align: center;"><a href="' . $domain . '/races/' . $row['id'] . '" target="_blank" rel="noreferrer noopener">Permalink</a></td><td style="text-align: center;">' . $row['players'] . '</td><td style="text-align: center;"><form action="' . $domain . '/submit_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="Input Time"></form></td><td style="text-align: center;"><form action="' . $domain . '/view_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="View Times"></form></td></tr>' . PHP_EOL;
+        echo '      <tr><td style="text-align: center;">' . htmlentities($row['date']) . '</td><td><a href="https://racetime.gg' . htmlentities($row['url']) . '" target="_blank" rel="noreferrer noopener">' . str_replace('/alttpr/','',$row['url']) . '</a></td><td style="text-align: center;">' . htmlentities($row['mode']) .'<td style="text-align: center;"><a href="' . htmlentities($row['seed']) . '" target="_blank" rel="noreferrer noopener">Seed Link</a></td><td>' . hashToImages($row['hash']) . '</td><td>' . $description . '</td><td style="text-align: center;"><a href="' . $domain . '/races/' . $row['id'] . '" target="_blank" rel="noreferrer noopener">Permalink</a></td><td style="text-align: center;">' . $row['players'] . '</td><td style="text-align: center;"><form action="' . $domain . '/submit_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="Input Time"></form></td><td style="text-align: center;"><form action="' . $domain . '/view_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="View Times"></form></td></tr>' . PHP_EOL;
 }
 echo "    </table><br>" . PHP_EOL;
 $nextpage = $pageint + 1;
