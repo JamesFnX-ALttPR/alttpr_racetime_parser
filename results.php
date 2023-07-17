@@ -8,6 +8,7 @@
 <?php
 include('settings.php');
 include('functions.php');
+$domain = getRequestURL();
 $conn = new mysqli($server,$userro,$passro,$db);
 if($conn->connect_error) {
   die('Connection failed: ' . $conn->connect_error);
@@ -38,7 +39,8 @@ if(empty($mode)) {
   $rows = $result->num_rows;
   $rowsint = intval($rows);
   $lastrecord = $firstrecord + $rowsint - 1;
-  echo '    <p class="return"><a href="./index.php">Return To Search</a></p>'. PHP_EOL;
+  echo '    <div style="width: 50%; margin-left: auto; margin-right: auto; text-align: center;"><span class="headerleft"><a href="' . $domain . '">Home</a></span><span class="headercenter"><a href="' . $domain . '/featured">Featured Modes</a></span><span class="headerright"><a href="' . $domain . '/faq">FAQ</a></span></div>' . PHP_EOL;
+  echo '    <br><br><hr>' . PHP_EOL;
   echo '    <div style="width: 50%; text-align: center; margin: auto;" class="inline"><p class="excludetext">Exclude a Racer?<br><form action="./results.php" method="post"><select name="exclude"><option value="">(None)</option>' . PHP_EOL;
   $stmtexcl = $conn->prepare("SELECT DISTINCT name FROM times WHERE race_id IN (SELECT id FROM races WHERE mode LIKE ?) ORDER BY name ASC");
   $stmtexcl->bind_param("s", $mode);
@@ -62,30 +64,18 @@ if(empty($mode)) {
     } else {
       $description = $row['description'];
     }
-    echo '      <tr><td style="text-align: center;">' . htmlentities($row['date']) . '</td><td><a href="https://racetime.gg' . htmlentities($row['url']) . '" target="_blank" rel="noreferrer noopener">' . str_replace('/alttpr/','',$row['url']) . '</a></td><td style="text-align: center;"><a href="' . htmlentities($row['seed']) . '" target="_blank" rel="noreferrer noopener">Seed Link</a></td><td>' . hashToImages($row['hash']) . '</td><td>' . $description . '</td><td style="text-align: center;"><a href="https://projects.thecleanupstep.com/races/' . $row['id'] . '" target="_blank" rel="noreferrer noopener">Permalink</a></td><td style="text-align: center;">' . $row['players'] . '</td>';
-    $stmt2 = $conn->prepare("SELECT * FROM times WHERE race_id = ?");
-    $stmt2->bind_param("i", $row['id']);
-    $stmt2->execute();
-    $result2 = $stmt2->get_result();
-    $rows = $result2->num_rows;
-    if($rows > 0) {
-      echo '<td style="text-align: center;"><form action="./submit_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="Input Time"></form></td><td style="text-align: center;"><form action="./view_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="View Times"></form></td>';
-    } else {
-      echo '<td colspan="2" style="text-align: center;"><form action="./submit_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="Input Time"></form></td>';
-    }
-    echo '</tr>' . PHP_EOL;
-    $stmt2->close();
+    echo '      <tr><td style="text-align: center;">' . htmlentities($row['date']) . '</td><td><a href="https://racetime.gg' . htmlentities($row['url']) . '" target="_blank" rel="noreferrer noopener">' . str_replace('/alttpr/','',$row['url']) . '</a></td><td style="text-align: center;"><a href="' . htmlentities($row['seed']) . '" target="_blank" rel="noreferrer noopener">Seed Link</a></td><td>' . hashToImages($row['hash']) . '</td><td>' . $description . '</td><td style="text-align: center;"><a href="' . $domain . '/races/' . $row['id'] . '" target="_blank" rel="noreferrer noopener">Permalink</a></td><td style="text-align: center;">' . $row['players'] . '</td><td style="text-align: center;"><form action="' . $domain . '/submit_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="Input Time"></form></td><td style="text-align: center;"><form action="' . $domain . '/view_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="View Times"></form></td></tr>' . PHP_EOL;
   }
   echo "    </table><br>" . PHP_EOL;
   $nextpage = $pageint + 1;
   if($pageint > 1) {
     $lastpage = $pageint - 1;
-    echo '    <div style="width: 90%; margin: auto;"><form method="post" action="./results.php" class="inline"><input type="hidden" id="gamemode" name="gamemode" value="' . $mode . '"><input type="hidden" id="exclude" name="exclude" value="' . $exclude . '"><input type="hidden" id="page" name="page" value="' . $lastpage . '"><button type="submit" class="link-button-2" style="float: left;">Last Page</button></form>';
+    echo '    <div style="width: 90%; margin: auto;"><form method="post" action="' . $domain . '/results.php" class="inline"><input type="hidden" id="gamemode" name="gamemode" value="' . $mode . '"><input type="hidden" id="exclude" name="exclude" value="' . $exclude . '"><input type="hidden" id="page" name="page" value="' . $lastpage . '"><button type="submit" class="link-button-2" style="float: left;">Last Page</button></form>';
   } else {
     echo '    <div style="width: 90%; margin: auto;">';
   }
   if($lastrecord - $firstrecord == 19) {
-    echo '<form method="post" action="./results.php" class="inline"><input type="hidden" id="gamemode" name="gamemode" value="' . $mode . '"><input type="hidden" id="exclude" name="exclude" value="' . $exclude . '"><input type="hidden" id="page" name="page" value="' . $nextpage . '"><button type="submit" class="link-button-2" style="float: right;">Next Page</button></form></div>' . PHP_EOL;
+    echo '<form method="post" action="' . $domain . '/results.php" class="inline"><input type="hidden" id="gamemode" name="gamemode" value="' . $mode . '"><input type="hidden" id="exclude" name="exclude" value="' . $exclude . '"><input type="hidden" id="page" name="page" value="' . $nextpage . '"><button type="submit" class="link-button-2" style="float: right;">Next Page</button></form></div>' . PHP_EOL;
   } else {
     echo '</div>' . PHP_EOL;
   }

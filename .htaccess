@@ -1,0 +1,13 @@
+RewriteEngine on
+RewriteRule ^races/(\d+)$ racedisplay.php?id=$1
+RewriteRule ^discord$ https://discord.gg/DbJQbJTju3
+RewriteRule ^faq$ faq.php
+RewriteRule ^featured$ featured.php?page=1
+RewriteRule ^featured/(\d+)$ featured.php?page=$1
+
+<Files mod_comments.php>
+AuthType Basic
+AuthName "Please input your username and password:"
+AuthUserFile /var/www/projects.thecleanupstep.com/.htpasswd
+Require valid-user
+</Files>

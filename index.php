@@ -5,7 +5,7 @@ $conn = new mysqli($server,$user,$pass,$db);
 if ($conn->connect_error) {
   die('Connection failed: ' . $conn->connect_error);
 }
-$url = getRequestURL();
+$domain = getRequestURL();
 ?>
 
 <!DOCTYPE html>
@@ -15,12 +15,12 @@ $url = getRequestURL();
   <title>RaceTime.GG Async Search/Submission Tool by JamesFnX</title>
   </head>
   <body>
-    <div style="width: 50%; margin-left: auto; margin-right: auto;"><span class="headerleft"><?php echo '<a href="' . $url; ?>/faq">FAQ</a></span><span class="headerright"><?php echo '<a href="' . $url; ?>/discord" target="_blank">Discord</a></span></div>
+    <div style="width: 50%; margin-left: auto; margin-right: auto; text-align: center;"><span class="headerleft"><?php echo '<a href="' . $domain; ?>/faq">FAQ</a></span><span class="headercenter"><?php echo '<a href="' . $domain; ?>/featured">Featured Modes</a></span><span class="headerright"><?php echo '<a href="' . $domain; ?>/discord" target="_blank">Discord</a></span></div>
     <br><br><hr>
     <h1>RaceTime Race Search and Async Submission</h1>
     <p>This tool looks up races from <a target="_blank" href="https://racetime.gg">RaceTime.GG</a> and sorts them by mode, giving you links to the seed without seeing the RT.GG page and getting spoiled on times.<br>
     This tool is very much still in development.<br>
-    <strong>UPDATED 7/14/23</strong> - Featured Modes updated to Crosskeys 2023 and Casual Boots..<br>
+    <strong>UPDATED 7/14/23</strong> - <?php echo '<a href="' . $domain; ?>/featured">Featured Modes</a> moved to their own page. Now featuring Crosskeys 100% Locations and Casual Boots.<br>
     <strong>UPDATED 7/7/23</strong> - Fixed a bug preventing times from new races from being entered automatically.<br>
     <strong>UPDATED 7/4/23</strong> - You can now add comments to your time submissions.<br>
     <strong>UPDATED 6/30/23</strong> - Participant List added to Permalinks - You can choose to see the names of the runners of a given seed on the Permalink page for that seed.<br>
@@ -32,7 +32,7 @@ $url = getRequestURL();
       </tr>
       <tr>
         <td style="border: 0px; background-color: rgb(0, 48, 0);">
-          <?php echo '<form action="' . $url; ?>/results.php" method="post">
+          <?php echo '<form action="' . $domain; ?>/results.php" method="post">
             <select name="gamemode">
 <?php
 $stmt = $conn->prepare("SELECT DISTINCT mode FROM races ORDER BY mode ASC");
@@ -49,7 +49,7 @@ $stmt->close();
           </form>
         </td>
         <td style="border: 0px; background-color: rgb(0, 48, 0);">
-          <?php echo '<form action="' . $url; ?>/racerresults.php" method="post">
+          <?php echo '<form action="' . $domain; ?>/racerresults.php" method="post">
             <select name="racer">
 <?php
 $stmt = $conn->prepare("SELECT DISTINCT name FROM times ORDER BY name ASC");
@@ -87,7 +87,7 @@ while($row = $result->fetch_assoc()) {
     } else {
       $description = $row2['description'];
     }
-    echo '        <tr><td style="text-align: center;">' . $row2['date'] . '</td><td style="text-align: center;">' . $row2['mode'] . '</td><td><a target="_blank" href="https://racetime.gg' . $row2['url'] . '">' . $row2['url'] . '</a></td><td><a target="_blank" href="' . $row2['seed'] .'">Download Seed</a></td><td>' . hashToImages($row2['hash']) . '</td><td>' . $description . '</td><td style="text-align: center;">' . $row2['players'] . '</td><td style="text-align: center;"><a href="' . $url . '/races/' . $row2['id'] . '" target=_blank" rel="noreferrer noopener">Permalink</a></td><td><form action="' . $url . '/submit_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row2['id'] . '"><input type="submit" value="Input Time"></form></td><td><form method="post" action="' . $url . '/view_time.php"><input type="hidden" id="race_id" name="race_id" value="' . $row2['id'] . '"><input type="submit" value="View Times"></form></td></tr>' . PHP_EOL;
+    echo '        <tr><td style="text-align: center;">' . $row2['date'] . '</td><td style="text-align: center;">' . $row2['mode'] . '</td><td><a target="_blank" href="https://racetime.gg' . $row2['url'] . '">' . $row2['url'] . '</a></td><td><a target="_blank" href="' . $row2['seed'] .'">Download Seed</a></td><td>' . hashToImages($row2['hash']) . '</td><td>' . $description . '</td><td style="text-align: center;">' . $row2['players'] . '</td><td style="text-align: center;"><a href="' . $domain . '/races/' . $row2['id'] . '" target=_blank" rel="noreferrer noopener">Permalink</a></td><td><form action="' . $domain . '/submit_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row2['id'] . '"><input type="submit" value="Input Time"></form></td><td><form method="post" action="' . $domain . '/view_time.php"><input type="hidden" id="race_id" name="race_id" value="' . $row2['id'] . '"><input type="submit" value="View Times"></form></td></tr>' . PHP_EOL;
   }
   $stmt2->close();
 }
@@ -110,28 +110,7 @@ while($row = $result->fetch_assoc()) {
   } else {
     $description = $row['description'];
   }
-  echo '        <tr><td style="text-align: center;">' . $row['date'] . '</td><td style="text-align: center;">' . $row['mode'] . '</td><td><a target="_blank" href="https://racetime.gg' . $row['url'] . '">' . $row['url'] . '</a></td><td><a target="_blank" href="' . $row['seed'] .'">Download Seed</a></td><td>' . hashToImages($row['hash']) . '</td><td>' . $description . '</td><td style="text-align: center;">' . $row['players'] . '</td><td style="text-align: center;"><a href="' . $url . '/races/' . $row['id'] . '" target=_blank" rel="noreferrer noopener">Permalink</a></td><td><form action="' . $url . '/submit_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="Input Time"></form></td><td><form method="post" action="' . $url . '/view_time.php"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="View Times"></form></td></tr>' . PHP_EOL;
-}
-$stmt->close();
-?>
-      </table>
-    </div>
-    <hr>
-    <div style="text-align: center;"><input type="button" value="Featured Modes - Crosskeys (100pct Locations) and Casual Boots - Click to View" id="showfeatured" onclick="toggleFeatured(this)" class="index-button"></div><br>
-    <div style="display:none;" id="featuredraces">
-      <table>
-        <tr><th width="85 px">Date</th><th>Mode</th><th>RaceTime Room</th><th>Seed Link</th><th width="145 px">Hash</th><th>Description</th><th>Players</th><th>Permalink</th><th colspan="2">Submit/View Times</th></tr>
-<?php
-$stmt = $conn->prepare("SELECT id, date, url, mode, seed, hash, description, players FROM races WHERE (mode = 'crosskeys2023' OR mode = 'alaszun/crosskeys2023' OR mode = 'casualboots') AND date BETWEEN NOW() - INTERVAL 45 DAY AND NOW() ORDER BY date DESC LIMIT 25");
-$stmt->execute();
-$result = $stmt->get_result();
-while($row = $result->fetch_assoc()) {
-  if(strlen($row['description']) > 75) {
-    $description = substr($row['description'], 0, 72) . '...';
-  } else {
-    $description = $row['description'];
-  }
-  echo '        <tr><td style="text-align: center;">' . $row['date'] . '</td><td style="text-align: center;">' . $row['mode'] . '</td><td><a target="_blank" href="https://racetime.gg' . $row['url'] . '">' . $row['url'] . '</a></td><td><a target="_blank" href="' . $row['seed'] .'">Download Seed</a></td><td>' . hashToImages($row['hash']) . '</td><td>' . $description . '</td><td style="text-align: center;">' . $row['players'] . '</td><td style="text-align: center;"><a href="' . $url . '/races/' . $row['id'] . '" target=_blank" rel="noreferrer noopener">Permalink</a></td><td><form action="' . $url . '/submit_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="Input Time"></form></td><td><form method="post" action="' . $url . '/view_time.php"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="View Times"></form></td></tr>' . PHP_EOL;
+  echo '        <tr><td style="text-align: center;">' . $row['date'] . '</td><td style="text-align: center;">' . $row['mode'] . '</td><td><a target="_blank" href="https://racetime.gg' . $row['url'] . '">' . $row['url'] . '</a></td><td><a target="_blank" href="' . $row['seed'] .'">Download Seed</a></td><td>' . hashToImages($row['hash']) . '</td><td>' . $description . '</td><td style="text-align: center;">' . $row['players'] . '</td><td style="text-align: center;"><a href="' . $domain . '/races/' . $row['id'] . '" target=_blank" rel="noreferrer noopener">Permalink</a></td><td><form action="' . $domain . '/submit_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="Input Time"></form></td><td><form method="post" action="' . $domain . '/view_time.php"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="View Times"></form></td></tr>' . PHP_EOL;
 }
 $stmt->close();
 ?>
@@ -147,7 +126,7 @@ $stmt = $conn->prepare("SELECT DISTINCT mode, COUNT(mode) AS total FROM races WH
 $stmt->execute();
 $result = $stmt->get_result();
 while($row = $result->fetch_assoc()) {
- echo '        <tr><td><form method="post" action="' . $url . '/results.php" class="inline"><button type="submit" name="gamemode" value="' . $row['mode'] . '" class="link-button">' . $row['mode'] . '</button></form></td><td style="text-align: right;">' . $row['total'] . '</td></tr>' . PHP_EOL;}
+ echo '        <tr><td><form method="post" action="' . $domain . '/results.php" class="inline"><button type="submit" name="gamemode" value="' . $row['mode'] . '" class="link-button">' . $row['mode'] . '</button></form></td><td style="text-align: right;">' . $row['total'] . '</td></tr>' . PHP_EOL;}
 $stmt->close();
 ?>
       </table>
@@ -176,19 +155,6 @@ $stmt->close();
       else {
         vis.style.display = 'block';
         document.getElementById(ele.id).value = "Latest Added Races - Click to Hide";
-      }
-    }
-  </script>
-  <script>
-    function toggleFeatured(ele) {
-      var vis = document.getElementById('featuredraces');
-      if (vis.style.display == 'block') {
-        vis.style.display = 'none';
-        document.getElementById(ele.id).value = "Featured Modes - Crosskeys (100pct Locations) and Casual Boots - Click to View";
-      }
-      else {
-        vis.style.display = 'block';
-        document.getElementById(ele.id).value = "Featured Modes - Crosskeys (100pct Locations) and Casual Boots - Click to Hide";
       }
     }
   </script>
