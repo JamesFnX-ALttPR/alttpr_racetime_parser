@@ -26,7 +26,10 @@
     <title>Results for <?= $url ?></title>
   </head>
   <body>
-    <p class="return"><?php echo'<a href="' . $domain; ?>/index.php">Return To Search</a></p>
+<?php
+  echo '    <div style="width: 50%; margin-left: auto; margin-right: auto; text-align: center;"><span class="headerleft"><a href="' . $domain . '">Home</a></span><span class="headercenter"><a href="' . $domain . '/featured">Featured Modes</a></span><span class="headerright"><a href="' . $domain . '/faq">FAQ</a></span></div>' . PHP_EOL;
+  echo '    <br><br><hr>' . PHP_EOL;
+?>
     <p class="header" style="font-family: 'Return of Ganon'; font-size: xx-large; font-weight: normal;"><?= $mode ?><br /><a target="_blank" href="https://racetime.gg/alttpr/<?= $url ?>"><?= $url ?></a> times</p>
     <p style="font-weight: bold; color: rgb(0, 190, 190); text-align: center;">Asynced times in blue</p>
     <table class="times">
@@ -77,19 +80,7 @@ if(empty($mode)) {
     } else {
       $description = $row['description'];
     }
-    echo '      <tr><td style="text-align: center;">' . htmlentities($row['date']) . '</td><td><a href="https://racetime.gg' . htmlentities($row['url']) . '" target="_blank" rel="noreferrer noopener">' . str_replace('/alttpr/','',$row['url']) . '</a></td><td style="text-align: center;"><a href="' . htmlentities($row['seed']) . '" target="_blank" rel="noreferrer noopener">Seed Link</a></td><td>' . hashToImages($row['hash']) . '</td><td>' . $description . '</td><td style="text-align: center;">' . $row['players'] . '</td><td style="text-align: center;"><a href="' . $domain . '/races/' . $row['id'] . '" target="_blank">Permalink</a></td>';
-    $stmt2 = $conn->prepare("SELECT * FROM times WHERE race_id = ?");
-    $stmt2->bind_param("i", $row['id']);
-    $stmt2->execute();
-    $result2 = $stmt2->get_result();
-    $rows = $result2->num_rows;
-    if($rows > 0) {
-      echo '<td style="text-align: center;"><form action="' . $domain . '/submit_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="Input Time"></form></td><td style="text-align: center;"><form action="' . $domain . '/view_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="View Times"></form></td>';
-    } else {
-      echo '<td colspan="2" style="text-align: center;"><form action="' . $domain . '/submit_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="Input Time"></form></td>';
-    }
-    echo '</tr>' . PHP_EOL;
-    $stmt2->close();
+    echo '      <tr><td style="text-align: center;">' . htmlentities($row['date']) . '</td><td><a href="https://racetime.gg' . htmlentities($row['url']) . '" target="_blank" rel="noreferrer noopener">' . str_replace('/alttpr/','',$row['url']) . '</a></td><td style="text-align: center;"><a href="' . htmlentities($row['seed']) . '" target="_blank" rel="noreferrer noopener">Seed Link</a></td><td>' . hashToImages($row['hash']) . '</td><td>' . $description . '</td><td style="text-align: center;">' . $row['players'] . '</td><td style="text-align: center;"><a href="' . $domain . '/races/' . $row['id'] . '" target="_blank">Permalink</a></td><td style="text-align: center;"><form action="' . $domain . '/submit_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="Input Time"></form></td><td style="text-align: center;"><form action="' . $domain . '/view_time.php" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $row['id'] . '"><input type="submit" value="View Times"></form></td></tr>' . PHP_EOL;
   }
   echo "    </table>" . PHP_EOL;
   $stmt->close();
