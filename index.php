@@ -15,7 +15,7 @@ $domain = getRequestURL();
   <title>RaceTime.GG Async Search/Submission Tool by JamesFnX</title>
   </head>
   <body>
-    <div style="width: 50%; margin-left: auto; margin-right: auto; text-align: center;"><span class="headerleft"><?php echo '<a href="' . $domain; ?>/faq">FAQ</a></span><span class="headercenter"><?php echo '<a href="' . $domain; ?>/featured/1">Featured Modes</a></span><span class="headerright"><?php echo '<a href="' . $domain; ?>/discord" target="_blank">Discord</a></span></div>
+    <div style="width: 50%; margin-left: auto; margin-right: auto; text-align: center;"><span class="headerleft"><?php echo '<a href="' . $domain; ?>/faq">FAQ</a></span><span class="headercenter"><?php echo '<a href="' . $domain; ?>/featured">Featured Modes</a></span><span class="headerright"><?php echo '<a href="' . $domain; ?>/discord" target="_blank">Discord</a></span></div>
     <br><br><hr>
     <h1>RaceTime Race Search and Async Submission</h1>
     <p>This tool looks up races from <a target="_blank" href="https://racetime.gg">RaceTime.GG</a> and sorts them by mode, giving you links to the seed without seeing the RT.GG page and getting spoiled on times.<br>
