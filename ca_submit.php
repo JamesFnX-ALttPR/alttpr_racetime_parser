@@ -49,11 +49,11 @@ echo '    <h1>Custom Asyncs - Submit Your Time</h1>' . PHP_EOL;
           <td class="submitField"><input type="text" id="name" name="name" required></td>
         </tr>
         <tr>
-          <td class="submitLabel"><label for="time">Your Time (H:mm:ss format, enter 9:59:00 for a forfeit):</td>
+          <td class="submitLabel"><label for="time">Your Time (H:mm:ss format, enter FF for a forfeit):</td>
           <td class="submitField"><input type="text" id="time" name="time" required></td>
         </tr>
         <tr>
-          <td class="submitLabel"><label for="igt">Your In-Game Time (from the finish screen):</td>
+          <td class="submitLabel"><label for="igt">Your In-Game Time (from the finish screen, leave blank if not single segment):</td>
           <td class="submitField"><input type="text" id="igt" name="igt"></td>
         </tr>
         <tr>

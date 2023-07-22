@@ -38,9 +38,15 @@ $st = $conn->prepare("SELECT id, seed, mode, hash FROM custom_seeds WHERE async_
 $st->bind_param("i", $id);
 $st->execute();
 $rslt = $st->get_result();
-echo '      <tr><th>Seed</th><th>Mode</th><th>Hash</th><th colspan="2">View/Submit Times</th></tr>' . PHP_EOL;
+echo '      <tr><th>Seed</th><th>Mode</th><th>Hash</th><th>Players</th><th colspan="2">View/Submit Times</th></tr>' . PHP_EOL;
 while($rw = $rslt->fetch_assoc()) {
-        echo '      <tr><td style="text-align: center;"><a target="_blank" href="' . htmlentities($rw['seed']) . '">Seed Link</a></td><td style="text-align: center;">' . $rw['mode'] . '</td><td style="text-align:center;">' . hashToImages($rw['hash']) . '</td><td style="text-align: center;"><form action="' . $domain . '/customasync/submittime" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $rw['id'] . '"><input type="submit" value="Submit Time"></form></td><td style="text-align: center;"><form action="' . $domain . '/customasync/viewtime" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $rw['id'] . '"><input type="submit" value="View Times"></form></td></tr>' . PHP_EOL;
+        $st2 = $conn->prepare("SELECT id FROM custom_times WHERE seed_id = ?");
+        $st2->bind_param("i", $rw['id']);
+        $st2->execute();
+        $rslt2 = $st2->get_result();
+        $players = $rslt2->num_rows;
+        $st2->close();
+        echo '      <tr><td style="text-align: center;"><a target="_blank" href="' . htmlentities($rw['seed']) . '">Seed Link</a></td><td style="text-align: center;">' . $rw['mode'] . '</td><td style="text-align:center;">' . hashToImages($rw['hash']) . '</td><td style="text-align: center;">' . $players . '</td><td style="text-align: center;"><form action="' . $domain . '/customasync/submittime" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $rw['id'] . '"><input type="submit" value="Submit Time"></form></td><td style="text-align: center;"><form action="' . $domain . '/ca_viewtimes.php" method="get"><input type="hidden" id="race_id" name="race_id" value="' . $rw['id'] . '"><input type="submit" value="View Times"></form></td></tr>' . PHP_EOL;
 }
 echo "    </table>" . PHP_EOL;
 $st->close();
