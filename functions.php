@@ -13,6 +13,20 @@ function getRequestURL() {
   return $url;
 }
 
+function validHash($s) {
+        $hashImages = array("Big Key", "Bombs", "Bombos", "Book", "Boomerang", "Boots", "Bow", "Bugnet", "Cape", "Compass", "Empty Bottle", "Ether", "Flippers", "Flute", "Gloves", "Green Potion", "Hammer", "Heart", "Hookshot", "Ice Rod", "Lamp", "Magic Powder", "Map", "Mirror", "Moon Pearl", "Mushroom", "Pendant", "Quake", "Shield", "Shovel", "Somaria", "Tunic");
+        $testHash = explode('/', str_replace('(', '', str_replace(')', '', $s)));
+        if(count($testHash) != 5) {
+                return 'false';
+        }
+        foreach($testHash as $str) {
+                if(!in_array($str, $hashImages)) {
+                        return 'false';
+                }
+        }
+        return 'true';
+}
+
 function parseName($s) {
   $pattern = "/.*\#[0-9]{4}/";
   if(preg_match($pattern,$s) != 1) {

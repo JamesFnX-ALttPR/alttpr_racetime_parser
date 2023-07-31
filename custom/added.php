@@ -6,13 +6,8 @@ $conn = new mysqli($server,$user,$pass,$dbdev);
 if ($conn->connect_error) {
         die('Connection failed: ' . $conn->connect_error);
 }
-if(isset($_POST['name'])) {
-        $name = $_POST['name'];
-}
-if(isset($_POST['description'])) {
-        $description = $_POST['description'];
-} else {
-        $description = '';
+if(isset($_POST['asyncseries'])) {
+        $asyncid = $_POST['asyncseries'];
 }
 $seed = array();
 $mode = array();
@@ -187,10 +182,6 @@ if($_POST['seed10'] != '') {
                 $hash[] = 'Invalid';
         }
 }
-$stmt = $conn->prepare("INSERT INTO custom_async (name, description, approved) VALUES (?, ?, 'n')");
-$stmt->bind_param("ss", $name, $description);
-$stmt->execute();
-$stmt->close();
 for ($a=0;$a<10;$a++) {
         if(!isset($seed[$a])) {
                 break;
@@ -216,18 +207,24 @@ for ($a=0;$a<10;$a++) {
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Custom Async Submission Received</title>
+    <title>Custom Async Seeds Successfully Added</title>
     <link rel="stylesheet" href=<?php echo '"' . $domain; ?>/styles.css">
   </head>
   <body>
     <div style="width: 50%; margin-left: auto; margin-right: auto; text-align: center;"><span class="headerleft"><a href=<?php echo '"' . $domain; ?>">Home</a></span><span class="headercenter"><a href=<?php echo '"' . $domain; ?>/featured">Featured Modes</a></span><span class="headerright"><a href=<?php echo '"' . $domain; ?>/faq">FAQ</a></span></div>
     <br><br><hr>
-    <h1>Submission Accepted!</h1>
-        <p>Please wait for an admin to approve your submission.<br>
-        Details:<br>
-        Async Series Name - <?php echo $name; ?><br>
-        Description - <?php echo $description; ?></p><hr>
-        <p>
+    <h1>Seeds Successfully Added</h1>
+    <p>Details:<br>
+<?php
+$st = $conn->prepare("SELECT name, description FROM custom_async WHERE id = ?");
+$st->bind_param("i", $asyncid);
+$st->execute();
+$result = $st->get_result();
+$row = $result->fetch_assoc();
+?>
+    Async Series Name - <?php echo $row['name']; ?><br>
+    Description - <?php echo $row['description']; ?></p><hr>
+    <p>
 <?php
 for ($a=0;$a<10;$a++) {
         if(!isset($seed[$a])) {

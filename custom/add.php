@@ -2,26 +2,38 @@
 include('../settings.php');
 include('../functions.php');
 $domain = getRequestURL();
+$conn = new mysqli($server,$userro,$passro,$dbdev);
+if ($conn->connect_error) {
+        die('Connection failed: ' . $conn->connect_error);
+}
 ?>
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Custom Async Submission</title>
+    <title>Custom Asyncs - Add Seeds</title>
     <link rel="stylesheet" href=<?php echo '"' . $domain; ?>/styles.css">
   </head>
   <body>
     <div style="width: 50%; margin-left: auto; margin-right: auto; text-align: center;"><span class="headerleft"><a href=<?php echo '"' . $domain; ?>">Home</a></span><span class="headercenter"><a href=<?php echo '"' . $domain; ?>/featured">Featured Modes</a></span><span class="headerright"><a href=<?php echo '"' . $domain; ?>/faq">FAQ</a></span></div>
     <br><br><hr>
-    <h1>Custom Async Submission Form</h1>
-    <form method="post" action=<?php echo '"' . $domain; ?>/custom/created.php">
+    <h1>Custom Async - Add Seeds</h1>
+    <form method="post" action=<?php echo '"' . $domain; ?>/custom/added.php">
       <table style="width: 75%; text-align: center;" class="submit">
         <tr>
-          <td class="submitLabel"><label for="name">Name of Tourney or Async Series:</td>
-          <td class="submitField"><input type="text" id="name" name="name" size="64" required></td>
-        </tr>
-        <tr>
-          <td class="submitLabel"><label for="description">Description of Tourney:</td>
-          <td class="submitField"><textarea id="description" name="description" rows="4" cols="60">Put in some information about your tourney or async series.</textarea></td>
+          <td class="submitLabel"><label for="name">Name of Async Series:</td>
+          <td class="submitField">
+            <select name="asyncseries" id="asyncseries">
+<?php
+        $st = $conn->prepare("SELECT id, name FROM custom_async ORDER BY name");
+        $st->execute();
+        $result = $st->get_result();
+        while($row = $result->fetch_assoc()) {
+                echo '              <option value="' . $row['id'] . '">' . $row['name'] . '</option>' . PHP_EOL;
+        }
+        $st->close();
+?>
+            <
+          </td>
         </tr>
       </table>
       <div style="text-align: center; font-family: Calibri; font-weight: bold; color: white;">Input up to 10 seeds</div>

@@ -66,6 +66,8 @@ while($row = $result->fetch_assoc()) {
         echo '</td><td style="text-align: center;">' . $row['comments'] . '</td><td style="text-align: center;">';
         if($row['vod'] == '') {
                 echo '</td></tr>';
+        } elseif(substr($row['vod'], 0, 4) != 'http') {
+                echo $row['vod'] . '</td></tr>';
         } else {
                 echo '<a target="_blank" href="' . $row['vod'] . '">Link to VOD</a></td></tr>';
         }

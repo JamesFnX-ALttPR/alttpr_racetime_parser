@@ -2,8 +2,13 @@ RewriteEngine on
 RewriteRule ^races/(\d+)$ racedisplay.php?id=$1
 RewriteRule ^discord$ https://discord.gg/DbJQbJTju3
 RewriteRule ^faq$ faq.php
-RewriteRule ^featured$ featured.php?page=1
+RewriteRule ^featured[/]?$ featured.php?page=1
 RewriteRule ^featured/(\d+)$ featured.php?page=$1
+RewriteRule ^customasync/submittime$ ca_submit.php
+RewriteRule ^customasync/timesubmitted$ ca_submit2.php
+RewriteRule ^customasync/viewtime/(\d+)$ ca_viewtimes.php?race_id=$1
+RewriteRule ^customasync/(\d+)$ ca_display.php?id=$1
+RewriteRule ^asyncs$ customasyncs.php
 
 <Files mod_comments.php>
 AuthType Basic
