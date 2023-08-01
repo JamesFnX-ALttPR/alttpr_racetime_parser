@@ -14,19 +14,23 @@ $domain = getRequestURL();
     <br><br><hr>
     <h1>Custom Async Submission Form</h1>
     <form method="post" action=<?php echo '"' . $domain; ?>/custom/created.php">
-      <table style="width: 75%; text-align: center;" class="submit">
+      <table style="width: 50%; text-align: center;" class="submit">
         <tr>
           <td class="submitLabel"><label for="name">Name of Tourney or Async Series:</td>
-          <td class="submitField"><input type="text" id="name" name="name" size="64" required></td>
+          <td class="submitField"><input type="text" id="name" name="name" size="61" required></td>
         </tr>
         <tr>
           <td class="submitLabel"><label for="description">Description of Tourney:</td>
           <td class="submitField"><textarea id="description" name="description" rows="4" cols="60">Put in some information about your tourney or async series.</textarea></td>
         </tr>
+        <tr>
+          <td class="submitLabel" style="text-align: center;" colspan="2"><label for="coop">Check if this series is intended for co-op play: <input type="checkbox" id="coop" name="coop" /></td>
+        </tr>
       </table>
+      <br />
       <div style="text-align: center; font-family: Calibri; font-weight: bold; color: white;">Input up to 10 seeds</div>
       <hr>
-      <table style="width: 75%; text-align: center;" class="submit">
+      <table style="width: 50%; text-align: center;" class="submit">
         <tr>
           <th>Link to Seed</th>
           <th>Mode</th>

@@ -14,6 +14,11 @@ if(isset($_POST['description'])) {
 } else {
         $description = '';
 }
+if(isset($_POST['coop'])) {
+        $coop = 'y';
+} else {
+        $coop = 'n';
+}
 $seed = array();
 $mode = array();
 $hash = array();
@@ -187,8 +192,8 @@ if($_POST['seed10'] != '') {
                 $hash[] = 'Invalid';
         }
 }
-$stmt = $conn->prepare("INSERT INTO custom_async (name, description, approved) VALUES (?, ?, 'n')");
-$stmt->bind_param("ss", $name, $description);
+$stmt = $conn->prepare("INSERT INTO custom_async (name, description, approved, coop) VALUES (?, ?, 'y', ?)");
+$stmt->bind_param("sss", $name, $description, $coop);
 $stmt->execute();
 $stmt->close();
 for ($a=0;$a<10;$a++) {

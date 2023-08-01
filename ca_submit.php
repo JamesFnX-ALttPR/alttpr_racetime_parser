@@ -21,12 +21,13 @@ while($row = $result->fetch_assoc()) {
   $parsedHash = hashToImages($hash);
 }
 $stmt->close();
-$stmt = $conn->prepare("SELECT name FROM custom_async WHERE id = ?");
+$stmt = $conn->prepare("SELECT name, coop FROM custom_async WHERE id = ?");
 $stmt->bind_param("i", $async_id);
 $stmt->execute();
 $result = $stmt->get_result();
 while($row = $result->fetch_assoc()) {
         $asyncname = $row['name'];
+                $coop = $row['coop'];
 }
 ?>
 <!DOCTYPE html>
@@ -45,29 +46,61 @@ echo '    <h1>Custom Asyncs - Submit Your Time</h1>' . PHP_EOL;
     <form method="post" action=<?php echo '"' . $domain; ?>/customasync/timesubmitted">
       <table class="submit">
         <tr>
-          <td class="submitLabel"><label for="name">Your Name:</label></td>
+          <td class="submitLabel"><label for="name"><?php if($coop == 'y') {echo 'Your Names:';} else {echo 'Your Name:';} ?></label></td>
           <td class="submitField"><input type="text" id="name" name="name" required></td>
         </tr>
         <tr>
-          <td class="submitLabel"><label for="time">Your Time (H:mm:ss format, enter FF for a forfeit):</td>
+          <td class="submitLabel"><label for="time"><?php if($coop == 'y') {echo 'Player 1\'s';} else {echo 'Your';} ?> Time (H:mm:ss format, enter FF for a forfeit):</td>
           <td class="submitField"><input type="text" id="time" name="time" required></td>
         </tr>
+<?php
+if($coop == 'y') {
+        echo '        <tr>' . PHP_EOL;
+        echo '          <td class="submitLabel"><label for="time2">Player 2\'s Time (H:mm:ss format, enter FF for a forfeit):</td>' . PHP_EOL;
+        echo '          <td class="submitField"><input type="text" id="time2" name="time2" required></td>' . PHP_EOL;
+        echo '        </tr>' . PHP_EOL;
+}
+?>
         <tr>
-          <td class="submitLabel"><label for="igt">Your In-Game Time (from the finish screen, leave blank if not single segment):</td>
+          <td class="submitLabel"><label for="igt"><?php if($coop == 'y') {echo 'Player 1\'s';} else {echo 'Your';} ?> In-Game Time (from the finish screen, leave blank if not single segment):</td>
           <td class="submitField"><input type="text" id="igt" name="igt"></td>
         </tr>
+<?php
+if($coop == 'y') {
+        echo '        <tr>' . PHP_EOL;
+        echo '          <td class="submitLabel"><label for="igt2">Player 2\'s In-Game Time:</td>' . PHP_EOL;
+        echo '          <td class="submitField"><input type="text" id="igt2" name="igt2"></td>' . PHP_EOL;
+        echo '        </tr>' . PHP_EOL;
+}
+?>
         <tr>
-          <td class="submitLabel"><label for="cr">Collection Rate (from the finish screen):</td>
+          <td class="submitLabel"><label for="cr"><?php if($coop == 'y') {echo 'Player 1\'s ';} ?>Collection Rate (from the finish screen):</td>
           <td class="submitField"><input type="text" id="cr" name="cr"></td>
         </tr>
+<?php
+if($coop == 'y') {
+        echo '        <tr>' . PHP_EOL;
+        echo '          <td class="submitLabel"><label for="cr2">Player 2\'s Collection Rate:</td>' . PHP_EOL;
+        echo '          <td class="submitField"><input type="text" id="cr2" name="cr2"></td>' . PHP_EOL;
+        echo '        </tr>' . PHP_EOL;
+}
+?>
         <tr>
           <td class="submitLabel"><label for="comments">Comments:</td>
           <td class="submitField"><input type="text" id="comments" name="comments"></td>
         </tr>
         <tr>
-          <td class="submitLabel"><label for="vod">Link to VOD:</td>
+          <td class="submitLabel"><label for="vod">Link to <?php if($coop == 'y') {echo 'Player 1\'s ';} ?>VOD:</td>
           <td class="submitField"><input type="text" id="vod" name="vod"></td>
         </tr>
+<?php
+if($coop == 'y') {
+        echo '        <tr>' . PHP_EOL;
+        echo '          <td class="submitLabel"><label for="vod2">Link to Player 2\'s VOD:</td>' . PHP_EOL;
+        echo '          <td class="submitField"><input type="text" id="vod2" name="vod2"></td>' . PHP_EOL;
+        echo '        </tr>' . PHP_EOL;
+}
+?>
         <tr>
           <td colspan="2" class="submitButton"><input type="hidden" id="raceid" name="raceid" value="<?= $raceid ?>"><input type="submit" value="Submit Time"></td>
         </tr>
