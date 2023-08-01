@@ -29,6 +29,30 @@ $row = $result->fetch_assoc();
 $asyncname = $row['name'];
 $asyncdesc = $row['description'];
 $stmt->close();
+$timeSum = 0;
+$count = 0;
+$stmt = $conn->prepare("SELECT realtime FROM custom_times WHERE seed_id = ? AND forfeit = 'n'");
+$stmt->bind_param("i", $raceid);
+$stmt->execute();
+$result=$stmt->get_result();
+while($row = $result->fetch_assoc()) {
+        $count++;
+        $timeSum = $timeSum + timeToSeconds($row['realtime']);
+}
+$averageTime = secondsToTime(round($timeSum / $count));
+$stmt->close();
+$crSum = 0;
+$crCount = 0;
+$stmt = $conn->prepare("SELECT cr FROM custom_times WHERE cr IS NOT NULL AND seed_id = ? AND forfeit = 'n'");
+$stmt->bind_param("i", $raceid);
+$stmt->execute();
+$result=$stmt->get_result();
+while($row = $result->fetch_assoc()) {
+        $crCount++;
+        $crSum = $crSum + $row['cr'];
+}
+$averageCR = round($crSum / $crCount);
+$stmt->close();
 ?>
 <!DOCTYPE html>
 <html>
@@ -43,6 +67,7 @@ $stmt->close();
 ?>
     <h1>Async Results and Stats</h1>
         <p class="header"><?= $asyncname ?> - <?= $mode ?><br /><a target="_blank" href=<?php echo '"' . $seed; ?>"><?= $seed ?></a> - <?= $parsedHash ?></p>
+                <p style="text-align: center; font-size: x-large;">Average Time - <?= $averageTime ?> - Average Clear Rate - <?= $averageCR ?></p>
     <table class="times" style="width: 90%;">
       <tr><th>Name</th><th>Real Time</th><th>In Game Time</th><th>Collection Rate</th><th>Comments</th><th>Link to VOD</th></tr>
 <?php
