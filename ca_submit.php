@@ -64,7 +64,7 @@ if($coop == 'y') {
 	echo '				<tr><td class="submitLabel"><label for="cr">Collection Rate (from the finish screen):</td><td class="submitField"><input type="text" id="cr" name="cr"></td></tr>' . PHP_EOL;
 	echo '				<tr><td class="submitLabel"><label for="comments">Comments:</td><td class="submitField"><input type="text" id="comments" name="comments"></td></tr>' . PHP_EOL;
 	echo '				<tr><td class="submitLabel"><label for="vod">Link to VOD:</td><td class="submitField"><input type="text" id="vod" name="vod"></td></tr>' . PHP_EOL;
-	echo '				<tr><td colspan="2" class="submitButton"><input type="hidden" id="raceid" name="raceid" value=";' . $raceid . '"><input type="submit" value="Submit Time"></td></tr>' . PHP_EOL;
+	echo '				<tr><td colspan="2" class="submitButton"><input type="hidden" id="raceid" name="raceid" value="' . $raceid . '"><input type="submit" value="Submit Time"></td></tr>' . PHP_EOL;
 	echo '			</table>' . PHP_EOL;
 }
 ?>
