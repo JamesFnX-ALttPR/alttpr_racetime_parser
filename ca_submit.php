@@ -54,7 +54,10 @@ if($coop == 'y') {
 	echo '				<tr>' . PHP_EOL;
 	echo '					<th></th><th><span class="new">Player 1</span></th><th><span class="new">Player 2</span></th>' . PHP_EOL;
 	echo '				</tr>' . PHP_EOL;
-	
+	echo '				<tr>' . PHP_EOL;
+	echo '					<td class="submitLabel"><label for="time">Real Time (H:mm:ss format, enter FF for a forfeit):</label></td>' . PHP_EOL;
+	echo '					<td class="submitField"><input type="text" id="time" name="time" required></td>' . PHP_EOL;
+	echo '					<td class="submitField"><input type="text" id="time2" name="time2" required></td>' . PHP_EOL;
 ?>			<table class="submit">
 				<tr>
 				<td class="submitLabel"><label for="name"><?php if($coop == 'y') {echo 'Your Names:';} else {echo 'Your Name:';} ?></label></td>
