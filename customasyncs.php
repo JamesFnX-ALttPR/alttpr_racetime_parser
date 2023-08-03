@@ -15,7 +15,7 @@ $conn = new mysqli($server,$userro,$passro,$dbdev);
 if($conn->connect_error) {
   die('Connection failed: ' . $conn->connect_error);
 }
-$st = $conn->prepare("SELECT id, name, description FROM custom_async WHERE approved = 'y' ORDER BY id DESC");
+$st = $conn->prepare("SELECT id, name, description FROM custom_async ORDER BY id DESC");
 $st->execute();
 $rslt = $st->get_result();
 echo '    <div style="width: 50%; margin-left: auto; margin-right: auto; text-align: center;"><span class="headerleft"><a href="' . $domain . '">Home</a></span><span class="headercenter"><a href="' . $domain . '/featured">Featured Modes</a></span><span class="headerright"><a href="' . $domain . '/faq">FAQ</a></span></div>' . PHP_EOL;
