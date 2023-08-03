@@ -10,7 +10,7 @@ $conn = new mysqli($server,$user,$pass,$dbdev);
 if($conn->connect_error) {
 	die('Connection failed: ' . $conn->connect_error);
 }
-$stmt = $conn->prepare("SELECT async_id, mode, hash FROM custom_seeds WHERE id = ?");
+$stmt = $conn->prepare("SELECT async_id, mode, hash, coop FROM custom_seeds WHERE id = ?");
 $stmt->bind_param("i", $raceid);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -19,15 +19,15 @@ while($row = $result->fetch_assoc()) {
 	$mode = $row['mode'];
 	$hash = $row['hash'];
 	$parsedHash = hashToImages($hash);
+	$coop = $row['coop'];
 }
 $stmt->close();
-$stmt = $conn->prepare("SELECT name, coop FROM custom_async WHERE id = ?");
+$stmt = $conn->prepare("SELECT name FROM custom_async WHERE id = ?");
 $stmt->bind_param("i", $async_id);
 $stmt->execute();
 $result = $stmt->get_result();
 while($row = $result->fetch_assoc()) {
 	$asyncname = $row['name'];
-	$coop = $row['coop'];
 }
 ?>
 <!DOCTYPE html>
@@ -58,8 +58,8 @@ if($coop == 'y') {
 	echo '			</table>' . PHP_EOL;
 } else {
 	echo '			<table class="submit">' . PHP_EOL;
-	echo '				<tr><td class="submitLabel"><label for="name">Your Name:</label></td><td class="submitField"><input type="text" id="name" name="name" required></td></tr>' . PHP_EOL;
-	echo '				<tr><td class="submitLabel"><label for="time">Your Time (H:mm:ss format, enter FF for a forfeit):</td><td class="submitField"><input type="text" id="time" name="time" required></td></tr>' . PHP_EOL;
+	echo '				<tr><td class="submitLabel"><label for="name">Your Name <span style="font-size: small; color: rgb(214, 122, 127);">(Required)</span>:</label></td><td class="submitField"><input type="text" id="name" name="name" required></td></tr>' . PHP_EOL;
+	echo '				<tr><td class="submitLabel"><label for="time">Your Time (H:mm:ss format, enter FF for a forfeit) <span style="font-size: small; color: rgb(214, 122, 127);">(Required)</span>:</td><td class="submitField"><input type="text" id="time" name="time" required></td></tr>' . PHP_EOL;
 	echo '				<tr><td class="submitLabel"><label for="igt">Your In-Game Time (from the finish screen, leave blank if not single segment):</td><td class="submitField"><input type="text" id="igt" name="igt"></td></tr>' . PHP_EOL;
 	echo '				<tr><td class="submitLabel"><label for="cr">Collection Rate (from the finish screen):</td><td class="submitField"><input type="text" id="cr" name="cr"></td></tr>' . PHP_EOL;
 	echo '				<tr><td class="submitLabel"><label for="comments">Comments:</td><td class="submitField"><input type="text" id="comments" name="comments"></td></tr>' . PHP_EOL;
