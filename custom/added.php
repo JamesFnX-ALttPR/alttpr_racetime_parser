@@ -202,7 +202,7 @@ for ($a=0;$a<10;$a++) {
 		break;
 	} else {
 		$stmt = $conn->prepare("SELECT seed FROM custom_seeds WHERE async_id = ? AND seed = ?");
-		$stmt->bind_param("is", $asyncseries, $seed[$a]);
+		$stmt->bind_param("is", $asyncid, $seed[$a]);
 		$stmt->execute();
 		$rslt = $stmt->get_result();
 		$numrows = $rslt->num_rows;
