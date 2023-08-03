@@ -39,6 +39,12 @@ if(strtoupper($igt2) == 'FF') {
 $cr2 = $_POST['cr2'];
 $vod2 = $_POST['vod2'];
 $comments = $_POST['comments'];
+if($forfeit == 'y') {
+	$igt=null;
+	$igt2=null;
+	$cr=null;
+	$cr2=null;
+}
 if(empty($time)) {
 	die("Form Broke Somehow");
 }
