@@ -2,11 +2,16 @@
 include('functions.php');
 include('settings.php');
 $domain = getRequestURL();
-$raceid = $_POST['race_id'];
+if(isset($_POST['race_id'])) {
+	$raceid = $_POST['race_id'];
+}
+if(isset($_GET['id'])) {
+	$raceid = $_GET['id'];
+}
 if(empty($raceid)) {
 	die('No Race Found Somehow?');
 }
-$conn = new mysqli($server,$user,$pass,$dbdev);
+$conn = new mysqli($server,$user,$pass,$db);
 if($conn->connect_error) {
 	die('Connection failed: ' . $conn->connect_error);
 }

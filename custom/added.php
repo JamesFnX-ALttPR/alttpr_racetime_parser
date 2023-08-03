@@ -2,7 +2,7 @@
 include('../settings.php');
 include('../functions.php');
 $domain = getRequestURL();
-$conn = new mysqli($server,$user,$pass,$dbdev);
+$conn = new mysqli($server,$user,$pass,$db);
 if ($conn->connect_error) {
 	die('Connection failed: ' . $conn->connect_error);
 }

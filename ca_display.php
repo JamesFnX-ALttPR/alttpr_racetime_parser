@@ -16,7 +16,7 @@ if(!isset($_GET['id'])) {
 } else {
 	$id = $_GET['id'];
 }
-$conn = new mysqli($server,$userro,$passro,$dbdev);
+$conn = new mysqli($server,$userro,$passro,$db);
 if($conn->connect_error) {
 	die('Connection failed: ' . $conn->connect_error);
 }
@@ -38,7 +38,7 @@ $st = $conn->prepare("SELECT id, seed, mode, hash, coop FROM custom_seeds WHERE 
 $st->bind_param("i", $id);
 $st->execute();
 $rslt = $st->get_result();
-echo '			<tr><th>Seed</th><th>Mode</th><th>Hash</th><th>Players</th><th colspan="2">View/Submit Times</th></tr>' . PHP_EOL;
+echo '			<tr><th>Seed</th><th>Mode</th><th>Hash</th><th>Players</th><th>Permalink</th><th colspan="2">View/Submit Times</th></tr>' . PHP_EOL;
 while($rw = $rslt->fetch_assoc()) {
 	$st2 = $conn->prepare("SELECT id FROM custom_times WHERE seed_id = ?");
 	$st2->bind_param("i", $rw['id']);
@@ -50,7 +50,7 @@ while($rw = $rslt->fetch_assoc()) {
 	if($rw['coop'] == 'y'){
 		echo 'Co-Op - ';
 	}
-	echo $rw['mode'] . '</td><td style="text-align:center;">' . hashToImages($rw['hash']) . '</td><td style="text-align: center;">' . $players . '</td><td style="text-align: center;"><form action="' . $domain . '/customasync/submittime" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $rw['id'] . '"><input type="submit" value="Submit Time"></form></td><td style="text-align: center;"><form action="' . $domain . '/ca_viewtimes.php" method="get"><input type="hidden" id="race_id" name="race_id" value="' . $rw['id'] . '"><input type="submit" value="View Times"></form></td></tr>' . PHP_EOL;
+	echo $rw['mode'] . '</td><td style="text-align:center;">' . hashToImages($rw['hash']) . '</td><td style="text-align: center;">' . $players . '</td><td style="text-align: center;"><a target="_blank" href="' . $domain . '/customasync/submittime/' . $rw['id'] . '">Permalink</a></td><td style="text-align: center;"><form action="' . $domain . '/customasync/submittime" method="post"><input type="hidden" id="race_id" name="race_id" value="' . $rw['id'] . '"><input type="submit" value="Submit Time"></form></td><td style="text-align: center;"><form action="' . $domain . '/ca_viewtimes.php" method="get"><input type="hidden" id="race_id" name="race_id" value="' . $rw['id'] . '"><input type="submit" value="View Times"></form></td></tr>' . PHP_EOL;
 }
 echo "		</table>" . PHP_EOL;
 $st->close();
