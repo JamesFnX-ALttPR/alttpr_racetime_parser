@@ -28,7 +28,7 @@ while($rw1 = $rslt1->fetch_assoc()) {
 	$name = $rw1['name'];
 	$description = $rw1['description'];
 }
-echo '		<div style="width: 50%; margin-left: auto; margin-right: auto; text-align: center;"><span class="headerleft"><a href="' . $domain . '">Home</a></span><span class="headercenter"><a href="' . $domain . '/featured">Featured Modes</a></span><span class="headerright"><a href="' . $domain . '/faq">FAQ</a></span></div>' . PHP_EOL;
+echo '		<div class="topline"><a href="' . $domain . '">Home</a><a href="' . $domain. '/faq">FAQ</a><a href="' . $domain . '/featured">Featured Modes</a><a href="' .$domain . '/asyncs">Custom Asyncs</a><a href="' . $domain . '/discord" target="_blank">Discord</a></div>' . PHP_EOL;
 echo '		<br><br><hr>' . PHP_EOL;
 echo '		<h1>Custom Asyncs for Tournaments and Communities</h1>' . PHP_EOL;
 echo '		<h2 style="text-align: center; font-family: \'Hylia Serif Beta\'; color: white">' . $name . '</h2>'. PHP_EOL;

@@ -18,7 +18,7 @@ if($conn->connect_error) {
 $st = $conn->prepare("SELECT id, name, description FROM custom_async ORDER BY id DESC");
 $st->execute();
 $rslt = $st->get_result();
-echo '    <div style="width: 50%; margin-left: auto; margin-right: auto; text-align: center;"><span class="headerleft"><a href="' . $domain . '">Home</a></span><span class="headercenter"><a href="' . $domain . '/featured">Featured Modes</a></span><span class="headerright"><a href="' . $domain . '/faq">FAQ</a></span></div>' . PHP_EOL;
+echo '		<div class="topline"><a href="' . $domain . '">Home</a><a href="' . $domain. '/faq">FAQ</a><a href="' . $domain . '/featured">Featured Modes</a><a href="' . $domain . '/discord" target="_blank">Discord</a></div>' . PHP_EOL;
 echo '    <br><br><hr>' . PHP_EOL;
 echo '    <h1>Custom Asyncs for Tournaments and Communities</h1>' . PHP_EOL;
 echo '    <table style="width: 90%;">' . PHP_EOL;
