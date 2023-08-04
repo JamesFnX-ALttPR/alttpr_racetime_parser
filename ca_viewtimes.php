@@ -29,7 +29,6 @@ $result = $stmt->get_result();
 $row = $result->fetch_assoc();
 $asyncname = $row['name'];
 $asyncdesc = $row['description'];
-$asynccoop = $row['coop'];
 $stmt->close();
 if($asynccoop == 'n') {
 	$timeSum = 0;
@@ -119,6 +118,19 @@ if($asynccoop == 'n') {
 	echo '	</body>' . PHP_EOL;
 	echo '</html>' . PHP_EOL;
 } else {
+	$stmt = $conn->prepare("SELECT id, realtime, realtime2 FROM custom_times WHERE seed_id = ? and forfeit = 'n'");
+	$stmt->bind_param("i", $raceid);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	while($row = $result->fetch_assoc()) {
+		$tTRT = timeToSeconds($row['realtime']) + timeToSeconds($row['realtime2']);
+		$tART = secondsToTime(round($tTRT / 2));
+		$st2 = $conn->prepare("INSERT INTO custom_coop (timeid, averagetime) VALUES (?, ?)");
+		$st2->bind_param("is", $row['id'], $tART);
+		$st2->execute();
+		$st2->close();
+	}
+	$stmt->close();
 	$timeSum = 0;
 	$count = 0;
 	$stmt = $conn->prepare("SELECT realtime FROM custom_times WHERE seed_id = ? AND forfeit = 'n'");
@@ -184,76 +196,82 @@ if($asynccoop == 'n') {
 	echo '		<table class="times" style="width: 90%;">' . PHP_EOL;
 	echo '			<tr><td class="submitLabel"></td><th colspan="4"><span class="new">Player 1</span></th><th colspan="4"><span class="new">Player 2</span></th><td class="submitLabel" colspan="4"></td></tr>' . PHP_EOL;
 	echo '			<tr><th>Name</th><th>Time</th><th>IGT</th><th>CR</th><th>VOD</th><th>Time</th><th>IGT</th><th>CR</th><th>VOD</th><th>Average Time</th><th>Average IGT</th><th>Combined CR</th></tr>' . PHP_EOL;
-	$stmt = $conn->prepare("SELECT name, realtime, ingametime, cr, comments, vod, realtime2, ingametime2, cr2, vod2 FROM custom_times WHERE seed_id = ? AND forfeit = 'n' ORDER BY realtime ASC");
-	$stmt->bind_param("i", $raceid);
-	$stmt->execute();
-	$result=$stmt->get_result();
-	while($row = $result->fetch_assoc()) {
-		$teamTotalRT = timeToSeconds($row['realtime']) + timeToSeconds($row['realtime2']);
-		$teamAverageRT = secondsToTime(round($teamTotalRT / 2));
-		if($row['ingametime'] == NULL) {
-			$teamAverageIGT = 'N/A';
-		} elseif($row['ingametime2'] == NULL) {
-			$teamAverageIGT = 'N/A';
-		} else {
-			$teamTotalIGT = timeToSeconds($row['ingametime']) + timeToSeconds($row['ingametime2']);
-			$teamAverageIGT = secondsToTime(round($teamTotalIGT / 2));
+	$st = $conn->prepare("SELECT timeid, averagetime FROM custom_coop ORDER BY averagetime");
+	$st->execute();
+	$rslt = $st->get_result();
+	while($rw = $rslt->fetch_assoc()) {
+		$stmt = $conn->prepare("SELECT name, realtime, ingametime, cr, comments, vod, realtime2, ingametime2, cr2, vod2 FROM custom_times WHERE id = ? ORDER BY realtime");
+		$stmt->bind_param("i", $rw['timeid']);
+		$stmt->execute();
+		$result=$stmt->get_result();
+		while($row = $result->fetch_assoc()) {
+			$teamTotalRT = timeToSeconds($row['realtime']) + timeToSeconds($row['realtime2']);
+			$teamAverageRT = secondsToTime(round($teamTotalRT / 2));
+			if($row['ingametime'] == NULL) {
+				$teamAverageIGT = 'N/A';
+			} elseif($row['ingametime2'] == NULL) {
+				$teamAverageIGT = 'N/A';
+			} else {
+				$teamTotalIGT = timeToSeconds($row['ingametime']) + timeToSeconds($row['ingametime2']);
+				$teamAverageIGT = secondsToTime(round($teamTotalIGT / 2));
+			}
+			if($row['cr'] == NULL) {
+				$teamCR = 'N/A';
+			} elseif($row['cr2'] == NULL) {
+				$teamCR = 'N/A';
+			} else {
+				$teamCR = $row['cr'] + $row['cr2'];
+			}
+			echo '			<tr><td style="text-align: center;">' . $row['name'] . '</td><td style="text-align: center;">' . $row['realtime'] . '</td><td style="text-align: center;">';
+			if($row['ingametime'] == NULL) {
+				echo 'N/A';
+			} else {
+				echo $row['ingametime'];
+			}
+			echo '</td><td style="text-align: center;">';
+			if($row['cr'] == NULL) {
+				echo 'N/A';
+			} elseif($row['cr'] == '') {
+				echo 'N/A';
+			} else {
+				echo $row['cr'];
+			}
+			echo '</td><td style="text-align: center;">';
+			if($row['vod'] == '') {
+				echo '';
+			} elseif(substr($row['vod'], 0, 4) != 'http') {
+				echo $row['vod'];
+			} else {
+				echo '<a target="_blank" href="' . $row['vod'] . '">Link to VOD</a>';
+			}
+			echo '</td><td style="text-align: center;">' . $row['realtime2'] . '</td><td style="text-align: center;">';
+				if($row['ingametime2'] == NULL) {
+				echo 'N/A';
+			} else {
+				echo $row['ingametime2'];
+			}
+			echo '</td><td style="text-align: center;">';
+			if($row['cr2'] == NULL) {
+				echo 'N/A';
+			} elseif($row['cr2'] == '') {
+				echo 'N/A';
+			} else {
+				echo $row['cr2'];
+			}
+			echo '</td><td style="text-align: center;">';
+			if($row['vod2'] == '') {
+				echo '';
+			} elseif(substr($row['vod2'], 0, 4) != 'http') {
+				echo $row['vod2'];
+			} else {
+				echo '<a target="_blank" href="' . $row['vod2'] . '">Link to VOD</a>';
+			}
+			echo '</td><td style="text-align: center; font-weight: bold;">' . $teamAverageRT . '</td><td style="text-align: center; font-weight: bold;">' . $teamAverageIGT . '</td><td style="text-align: center; font-weight: bold;">' . $teamCR . '</td></tr>' . PHP_EOL;
+			echo '			<tr><th>Comments</th><td colspan="11">' . $row['comments'] . '</td></tr>' . PHP_EOL;
 		}
-		if($row['cr'] == NULL) {
-			$teamCR = 'N/A';
-		} elseif($row['cr2'] == NULL) {
-			$teamCR = 'N/A';
-		} else {
-			$teamCR = $row['cr'] + $row['cr2'];
-		}
-		echo '			<tr><td style="text-align: center;">' . $row['name'] . '</td><td style="text-align: center;">' . $row['realtime'] . '</td><td style="text-align: center;">';
-		if($row['ingametime'] == NULL) {
-			echo 'N/A';
-		} else {
-			echo $row['ingametime'];
-		}
-		echo '</td><td style="text-align: center;">';
-		if($row['cr'] == NULL) {
-			echo 'N/A';
-		} elseif($row['cr'] == '') {
-			echo 'N/A';
-		} else {
-			echo $row['cr'];
-		}
-		echo '</td><td style="text-align: center;">';
-		if($row['vod'] == '') {
-			echo '';
-		} elseif(substr($row['vod'], 0, 4) != 'http') {
-			echo $row['vod'];
-		} else {
-			echo '<a target="_blank" href="' . $row['vod'] . '">Link to VOD</a>';
-		}
-		echo '</td><td style="text-align: center;">' . $row['realtime2'] . '</td><td style="text-align: center;">';
-			if($row['ingametime2'] == NULL) {
-			echo 'N/A';
-		} else {
-			echo $row['ingametime2'];
-		}
-		echo '</td><td style="text-align: center;">';
-		if($row['cr2'] == NULL) {
-			echo 'N/A';
-		} elseif($row['cr2'] == '') {
-			echo 'N/A';
-		} else {
-			echo $row['cr2'];
-		}
-		echo '</td><td style="text-align: center;">';
-		if($row['vod2'] == '') {
-			echo '';
-		} elseif(substr($row['vod2'], 0, 4) != 'http') {
-			echo $row['vod2'];
-		} else {
-			echo '<a target="_blank" href="' . $row['vod2'] . '">Link to VOD</a>';
-		}
-		echo '</td><td style="text-align: center; font-weight: bold;">' . $teamAverageRT . '</td><td style="text-align: center; font-weight: bold;">' . $teamAverageIGT . '</td><td style="text-align: center; font-weight: bold;">' . $teamCR . '</td></tr>' . PHP_EOL;
-		echo '			<tr><th>Comments</th><td colspan="11">' . $row['comments'] . '</td></tr>' . PHP_EOL;
+		$stmt->close();
 	}
-	$stmt->close();
+	$st->close();
 	$stmt = $conn->prepare("SELECT name, comments FROM custom_times WHERE seed_id = ? AND forfeit = 'y' ORDER BY id ASC");
 	$stmt->bind_param("i", $raceid);
 	$stmt->execute();
@@ -268,5 +286,8 @@ if($asynccoop == 'n') {
 	echo '		<div style="width: 50%; margin-left: auto; margin-right: auto; text-align: center;"><span class="headercenter"><a href="' . $domain . '/customasync/' . $asyncid . '">Back to ' . $asyncname . ' Seeds</a></span></div>' . PHP_EOL;
 	echo '	</body>' . PHP_EOL;
 	echo '</html>' . PHP_EOL;
+	$stmt = $conn->prepare("TRUNCATE TABLE custom_coop");
+	$stmt->execute();
+	$stmt->close();
 }
 ?>
