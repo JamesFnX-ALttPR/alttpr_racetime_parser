@@ -25,19 +25,27 @@ if(strtoupper($igt) == 'FF') {
 }
 $cr = $_POST['cr'];
 $vod = $_POST['vod'];
-$time2 = $_POST['time2'];
-if(strtoupper($time2) == 'FF') {
-	$time2='9:59:00';
+if(isset($_POST['time2'])) {
+	$time2 = $_POST['time2'];
+	if(strtoupper($time2) == 'FF') {
+		$time2='9:59:00';
+	}
+	if($time2 == '9:59:00') {
+		$forfeit='y';
+	}
 }
-if($time2 == '9:59:00') {
-	$forfeit='y';
+if(isset($_POST['igt2'])) {
+	$igt2 = $_POST['igt2'];
+	if(strtoupper($igt2) == 'FF') {
+		$igt2 = '9:59:00';
+	}
 }
-$igt2 = $_POST['igt2'];
-if(strtoupper($igt2) == 'FF') {
-	$igt2 = '9:59:00';
+if(isset($_POST['cr2'])) {
+	$cr2 = $_POST['cr2'];
 }
-$cr2 = $_POST['cr2'];
-$vod2 = $_POST['vod2'];
+if(isset($_POST['vod2'])) {
+	$vod2 = $_POST['vod2'];
+}
 $comments = $_POST['comments'];
 if($forfeit == 'y') {
 	$igt=null;
